@@ -84,57 +84,119 @@ const catProducts = [
 
 // CODE HERE
 
+const applyPercentageDiscount = (product, discount) => {
+  product.displayPrice = product.basePrice * (1 - discount);
+};
+
+const applyFlatRate = (product, discount) => {
+  product.displayPrice = product.basePrice - discount;
+};
+
+// applying discounts to the whole array using .forEach
+const applyDiscounts = (array, callbackFn, discount) => {
+  array.forEach((product) => {
+    callbackFn(product, discount);
+  });
+};
+
+applyDiscounts(dogProducts, applyPercentageDiscount, 0.25);
+
+console.log(dogProducts);
+
+applyDiscounts(catProducts, applyFlatRate, 2);
+
+console.log(catProducts);
+
+const applyDiscountByCategory = (arr, callbackFn, discount, category) => {
+  arr.forEach((product) => {
+    if (product.category === category) {
+      callbackFn(product, discount);
+    }
+  });
+};
+
+applyDiscountByCategory(dogProducts, applyPercentageDiscount, 0.1, 1);
+console.log(dogProducts);
+applyDiscountByCategory(catProducts, applyFlatRate, 1, 2);
+
+// looks like you can do array.1 instead of array[1]
 ////////////////////////
 ////// SANDWICHES //////
 ////////////////////////
 
 // CODE HERE
+const makeSandwich = (bread) => {
+  return function (ingredients) {
+    let order = `You ordered a ${bread} bread sandwich with `;
+
+    for (let i = 0; i < ingredients.length; i++) {
+      if (i === ingredients.length - 1 && i !== 0) {
+        order += `and ${ingredients[i]}.`;
+      } else if (ingredients.length === 1) {
+        order += `${ingredients[i]}.`;
+      } else {
+        order += `${ingredients[i]}, `;
+      }
+    }
+    return order;
+  };
+};
+const makeWheatSandwich = makeSandwich("Wheat");
+const natesOrder = makeWheatSandwich(["Pickles", "Ham", "Turkey", "Apple"]);
+
+console.log();
 
 ////////////////////////////////////
 ////// COPY AND CHANGE ARRAYS //////
 ////////////////////////////////////
 
-const lotr = ['biLbO BaGGINs', 'leGOlAs', 'Frodo bAGGINS', 'sAMwiSe GamGEe', 'gAndALF tHe GREY']
+const lotr = [
+  "biLbO BaGGINs",
+  "leGOlAs",
+  "Frodo bAGGINS",
+  "sAMwiSe GamGEe",
+  "gAndALF tHe GREY",
+];
 
-const copyArrToCamelCase = arr => {
-    const newArr = []
+const copyArrToCamelCase = (arr) => {
+  const newArr = [];
 
-    for (let i = 0; i < arr.length; i++) {
-        const str = arr[i]
-        const splitStr = str.split(' ')
-        let camelCaseStr = ''
+  for (let i = 0; i < arr.length; i++) {
+    const str = arr[i];
+    const splitStr = str.split(" ");
+    let camelCaseStr = "";
 
-        for (let x = 0; x < splitStr.length; x++) {
-            let word = splitStr[x]
+    for (let x = 0; x < splitStr.length; x++) {
+      let word = splitStr[x];
 
-            word = word.toLowerCase()
+      word = word.toLowerCase();
 
-            if (x !== 0) {
-                word = word.charAt(0).toUpperCase() + word.slice(1)
-            }
+      if (x !== 0) {
+        word = word.charAt(0).toUpperCase() + word.slice(1);
+      }
 
-            camelCaseStr += word
-        }
-
-        newArr.push(camelCaseStr)
+      camelCaseStr += word;
     }
 
-    return newArr
-}
+    newArr.push(camelCaseStr);
+  }
 
-const copyArrToSnakeCase = arr => {
-    const newArr = []
+  return newArr;
+};
 
-    for (let i = 0; i < arr.length; i++) {
-        let str = arr[i]
-        str = str.toLowerCase()
-        const splitStr = str.split(' ')
-        const snakeCaseStr = splitStr.join('_')
-        newArr.push(snakeCaseStr)
-    }
+const copyArrToSnakeCase = (arr) => {
+  const newArr = [];
 
-    return newArr
-}
+  for (let i = 0; i < arr.length; i++) {
+    let str = arr[i];
+    str = str.toLowerCase();
+    const splitStr = str.split(" ");
+    const snakeCaseStr = splitStr.join("_");
+    newArr.push(snakeCaseStr);
+  }
+
+  return newArr;
+};
 
 // CODE HERE
 
@@ -149,10 +211,11 @@ const copyArrToSnakeCase = arr => {
     for each color in the array.
 */
 
-const colors = ['red', 'blue', 'yellow', 'green', 'orange']
+const colors = ["red", "blue", "yellow", "green", "orange"];
 
-const mappedColors // = colors.map()
-
+// const mappedColors // = colors.map()
+const mappedColors = colors.map((color) => (color = "pink"));
+console.log(mappedColors);
 /*
     Edit the formalGreeting function and use the built in .map method
     to map over the names parameter and return a new array with "Hello, "
@@ -161,12 +224,17 @@ const mappedColors // = colors.map()
     Make sure to use arrow functions combined with the map method
 */
 
-const formalNames = ['Bernard', 'Elizabeth', 'Conrad', 'Mary Margaret']
+const formalNames = ["Bernard", "Elizabeth", "Conrad", "Mary Margaret"];
 
-const formalGreeting = names => {
-    // CODE HERE
-}
+const formalGreeting = (names) => {
+  // CODE HERE
+  names.map((name) => `Hello, ${name}`);
+  return names;
+};
 
+const greetings = formalGreeting(formalNames);
+
+console.log(greetings);
 // Call formalGreeting passing in the formalNames array
 
 //// FILTER ////
@@ -176,10 +244,20 @@ const formalGreeting = names => {
     only strings that begin with the letter A
 */
 
-const places = ['Binghampton', 'Albany', 'New York', 'Ithaca', 'Auburn', 'Rochester', 'Buffalo']
+const places = [
+  "Binghampton",
+  "Albany",
+  "New York",
+  "Ithaca",
+  "Auburn",
+  "Rochester",
+  "Buffalo",
+];
 
-const placesThatStartWithA // = places.filter()
+// const placesThatStartWithA // = places.filter()
+const placesThatStartWithA = places.filter((place) => place[0] === "B");
 
+console.log(placesThatStartWithA);
 /*
     Create a function called identifier that uses the filter higher order
     array method to filter over the provided jobs array of objects
@@ -195,14 +273,22 @@ const placesThatStartWithA // = places.filter()
 
 // Do not edit the code below.
 let jobs = [
-	{ receptionist: "James" },
-	{ programmer: "Steve" },
-	{ designer: "Alicia" },
+  { job: "receptionist", name: "James" },
+  { job: "programmer", name: "Steve" },
+  { job: "designer", name: "Alicia" },
 ];
 
 // Do not edit the code above.
 
 // CODE HERE
+
+const identifier = (arr) => {
+  const filtered = arr.filter((element) => element.job === "programmer");
+  console.log(filtered);
+  return filtered[0];
+};
+
+console.log(identifier(jobs));
 
 // call the function passing in the jobs array
 
@@ -216,14 +302,17 @@ let jobs = [
     Make sure to use arrow functions combined with the reduce method
 */
 
-const numsToReduce = [43, 7, 24, 79, 290]
+const numsToReduce = [43, 7, 24, 79, 290];
 
-const productOfArray = numbers => {
-    // Code here
-}
+const productOfArray = (numbers) => {
+  // Code here
+  return numbers.reduce((acc, curr) => acc * curr);
+};
 
 // CODE HERE
 
+const marble = productOfArray(numsToReduce);
+console.log({ marble });
 // call productOfArray passing in numsToReduce
 
 /*
@@ -235,21 +324,21 @@ const productOfArray = numbers => {
     in the budget after these expenses
 */
 
-const budget = 2000
+const budget = 2000;
 
 const expenses = [
-    {
-        title: 'rent',
-        amount: 1000
-    },
-    {
-        title: 'car payment',
-        amount: 250
-    },
-    {
-        title: 'food',
-        amount: 300
-    }
-]
+  {
+    title: "rent",
+    amount: 1000,
+  },
+  {
+    title: "car payment",
+    amount: 250,
+  },
+  {
+    title: "food",
+    amount: 300,
+  },
+];
 
-const remaining // = expenses.reduce(//callback, //initial value)
+// const remaining // = expenses.reduce(//callback, //initial value)
